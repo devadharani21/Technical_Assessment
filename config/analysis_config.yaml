@@ -1,0 +1,101 @@
+# Code Analytics Framework Configuration
+
+# Coding Standards
+coding_standards:
+  max_line_length: 120
+  max_function_length: 50
+  max_complexity: 10
+  max_nested_blocks: 4
+  naming_conventions:
+    test_prefix: "test_"
+    class_pattern: "^Test[A-Z][a-zA-Z0-9]*$"
+    function_pattern: "^[a-z_][a-z0-9_]*$"
+  
+  # Flake8 rules
+  flake8_rules:
+    - E501  # line too long
+    - E302  # expected 2 blank lines
+    - W291  # trailing whitespace
+    - F401  # module imported but unused
+    - F841  # local variable assigned but never used
+
+# Flaky Test Patterns
+flaky_patterns:
+  # Timing-related issues
+  timing:
+    - pattern: "time\\.sleep\\("
+      message: "Hard-coded sleep detected - potential flaky test"
+      severity: "high"
+    - pattern: "\\bsleep\\("
+      message: "Sleep function usage - consider explicit waits"
+      severity: "high"
+    - pattern: "wait\\(\\d+\\)"
+      message: "Fixed wait time - use dynamic waits"
+      severity: "medium"
+  
+  # Race conditions
+  race_conditions:
+    - pattern: "Thread\\("
+      message: "Manual thread creation - potential race condition"
+      severity: "high"
+    - pattern: "\\.start\\(\\).*\\.join\\(\\)"
+      message: "Thread synchronization - check for race conditions"
+      severity: "medium"
+  
+  # Network/External dependencies
+  external_dependencies:
+    - pattern: "requests\\.get\\("
+      message: "External HTTP request - should be mocked"
+      severity: "high"
+    - pattern: "urllib\\.request"
+      message: "External network call - consider mocking"
+      severity: "high"
+    - pattern: "socket\\."
+      message: "Socket usage - potential network flakiness"
+      severity: "medium"
+  
+  # Resource management
+  resource_issues:
+    - pattern: "open\\([^)]+\\)(?!.*with)"
+      message: "File opened without context manager"
+      severity: "medium"
+    - pattern: "\\bdb\\."
+      message: "Database interaction - check for proper cleanup"
+      severity: "medium"
+  
+  # Implicit waits and polling
+  wait_issues:
+    - pattern: "implicitly_wait"
+      message: "Implicit wait usage - prefer explicit waits"
+      severity: "high"
+    - pattern: "while.*not.*:"
+      message: "Polling loop detected - use explicit wait conditions"
+      severity: "medium"
+
+# Code Duplication
+duplication:
+  min_lines: 6  # Minimum lines to consider as duplicate
+  min_tokens: 50  # Minimum tokens for similarity
+  ignore_comments: true
+  ignore_whitespace: true
+
+# Reporting
+reporting:
+  output_format: excel
+  severity_levels:
+    - critical
+    - high
+    - medium
+    - low
+  
+# File patterns to analyze
+file_patterns:
+  include:
+    - "test_*.py"
+    - "*_test.py"
+    - "tests/**/*.py"
+  exclude:
+    - "__init__.py"
+    - "conftest.py"
+    - "**/migrations/**"
+
