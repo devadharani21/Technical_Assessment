@@ -37,29 +37,26 @@
 │                (For Each Test File)                             │
 └────────────────────────────┬────────────────────────────────────┘
                              │
-                ┌────────────┴────────────┐
-                │                         │
-                ▼                         ▼
-    ┌─────────────────────┐   ┌─────────────────────┐
-    │ Coding Standards    │   │  Duplication        │
-    │    Analysis         │   │   Detection         │
-    │  - Line length      │   │  - Hash blocks      │
-    │  - Naming           │   │  - Compare files    │
-    │  - Complexity       │   │  - Find matches     │
-    │  - Nesting          │   │                     │
-    └──────────┬──────────┘   └──────────┬──────────┘
-               │                         │
-               ▼                         ▼
-    ┌─────────────────────┐
-    │  Flaky Patterns     │
-    │    Detection        │
-    │  - time.sleep()     │
-    │  - Implicit waits   │
-    │  - External calls   │
-    │  - Race conditions  │
-    └──────────┬──────────┘
-               │
-               ▼
+        ┌────────────┼────────────┼────────────┐
+        │            │            │            │
+        ▼            ▼            ▼            ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ Coding       │ │ Duplication  │ │   Flaky      │
+│ Standards    │ │  Detection   │ │  Patterns    │
+│  Analysis    │ │              │ │  Detection   │
+│              │ │              │ │              │
+│ - Line       │ │ - Hash       │ │ - time.sleep │
+│   length     │ │   blocks     │ │ - Implicit  │
+│ - Naming     │ │ - Compare    │ │   waits      │
+│ - Complexity │ │   files      │ │ - External  │
+│ - Nesting    │ │ - Find       │ │   calls      │
+│              │ │   matches    │ │ - Race       │
+│              │ │              │ │   conditions │
+└──────┬───────┘ └──────┬────────┘ └──────┬───────┘
+       │                │                 │
+       └────────────────┼─────────────────┘
+                        │
+                        ▼
                             
 
 ┌─────────────────────────────────────────────────────────────────┐
